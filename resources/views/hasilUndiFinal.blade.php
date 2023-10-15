@@ -45,8 +45,8 @@
                         <div>
                             <!-- Button trigger modal -->
 
-                            <a href="/pilih/hadiah/undiPemenang/hasilUndi/{{ $hadiahNasabah->id }}"
-                                class="btn btn-primary">Undi Pemenang</a>
+                            {{-- <a href="/pilih/hadiah/undiPemenang/hasilUndi/{{ $hadiahNasabah->id }}"
+                                class="btn btn-primary">Undi Pemenang</a> --}}
                             <a href="{{ route('welcome') }}" class="btn btn-secondary">Kembali</a>
                         </div>
                         </table>
