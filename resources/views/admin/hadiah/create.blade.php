@@ -34,6 +34,22 @@
                                   @endforeach
                               </select>
                           </div>
+
+                            <div class="mb-3">
+                              <label for="jumlahHadiah" class="form-label">Jumlah Hadiah</label>
+                              <select name="jumlahHadiah" class="form-select" id="jumlahHadiah">
+                                  <option selected disabled>=== Jumlah Hadiah ==</option>
+                                  <option value="1">1 Buah</option>
+                                  <option value="2">2 Buah</option>
+                                  <option value="3">3 Buah</option>
+                                  <option value="4">4 Buah</option>
+                                  <option value="5">5 Buah</option>
+                                  <option value="6">6 Buah</option>
+                                  <option value="7">7 Buah</option>
+                                  <option value="8">8 Buah</option>
+                                  <option value="9">9 Buah</option>
+                              </select>
+                          </div>
                           
 
                             {{-- <div class="mb-3">

@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('hadiahs', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('jumlahHadiah');
             $table->string('description')->nullable;
             $table->string('img');
             $table->unsignedBigInteger('wilayah_id')->nullable();

@@ -26,6 +26,9 @@ Route::get('/pilih/hadiah/undiPemenang/{id}', [MainController::class, 'undiPemen
 Route::get('/pilih/hadiah/undiPemenang/hasilUndi/{id}', [MainController::class, 'hasilUndi'])->name('hasilUndi');
 
 
+Route::get('/api', [MainController::class, 'getApi'])->name('getApi');
+
+
 
 // DASHBOARD UTAMA
 Route::get('/admin/dashboard', [MainController::class, 'dashboard'])->name('dashboard');

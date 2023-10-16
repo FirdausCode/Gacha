@@ -42,6 +42,7 @@ class HadiahController extends Controller
       $hadiah->name = $request->input('name'); 
       $hadiah->description = $request->input('description'); 
       $hadiah->wilayah_id = $request->input('wilayah_id'); 
+      $hadiah->jumlahHadiah = $request->input('jumlahHadiah'); 
 
       
       if ($request->hasFile('img')) {
@@ -91,6 +92,7 @@ class HadiahController extends Controller
 
       $hadiah->name = $request->input('name'); 
       $hadiah->description = $request->input('description'); 
+      $hadiah->jumlahHadiah = $request->input('jumlahHadiah'); 
       $hadiah->wilayah_id = $request->input('wilayah_id'); 
 
       if ($request->hasFile('img')) {

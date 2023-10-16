@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\NasabahResource;
 use App\Models\Hadiah;
+use GuzzleHttp\Client;
 use App\Models\Nasabah;
 use App\Models\Wilayah;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class MainController extends Controller
@@ -38,34 +41,72 @@ class MainController extends Controller
 
     public function hasilUndi($id)
     {
-      // 1. Retrieve the specific Hadiah by its ID.
-      $hadiahNasabah = Hadiah::where('id', $id)->firstOrFail();
+      // 1. Ambil data dari API
+      $apiUrl = 'https://sheet2api.com/v1/ElpacIqT42dt/test';
+      $client = new Client();
+      $response = $client->get($apiUrl);
+  
+      // 2. Parse data JSON dari respons API
+      $data = json_decode($response->getBody(), true);
+  
+      if ($data) {
+          // 3. Buat atau perbarui entri dalam model Nasabah
+          foreach ($data as $item) {
+              Nasabah::updateOrCreate(
+                  ['id' => $item['id']],
+                  [
+                      'name' => $item['name'],
+                      'nameCabang' => $item['nameCabang'],
+                      'cif' => $item['cif'],
+                      'wa' => $item['wa'],
+                  ]
+              );
+          }
+      
+        // 4. Setelah mengambil data dari api dan memasukannya ke model
+        //    melakukan undi / random nasabah
+        $hadiahNasabah = Hadiah::where('id', $id)->firstOrFail();
 
-      // 2. Randomly select Nasabah records based on $id.
-      if ($id == 1) {
-          $hasilUndiNasabah = Nasabah::inRandomOrder()->limit(1)->get();
-      } elseif ($id == 2) {
-          $hasilUndiNasabah = Nasabah::inRandomOrder()->limit(2)->get();
-      } elseif ($id == 3) {
-          $hasilUndiNasabah = Nasabah::inRandomOrder()->limit(3)->get();
-      } elseif ($id == 4) {
-          $hasilUndiNasabah = Nasabah::inRandomOrder()->limit(4)->get();
+        $jumlahHadiah = Hadiah::where('id', $id)->value('jumlahHadiah');
+
+        // =======================================================================
+          //   $hasilUndiNasabah = Nasabah::where(function($query) use ($jumlahHadiah) {
+          //     $query->where('name', 'resdian')
+          //         ->where('hadiah_id', null);
+          // })->orWhere(function($query) use ($jumlahHadiah) {
+          //     $query->inRandomOrder()
+          //         ->limit($jumlahHadiah);
+          // })->get();
+        // =======================================================================
+
+        // =======================================================================
+        $hasilUndiNasabah = Nasabah::inRandomOrder()->limit($jumlahHadiah)->get();
+        // =======================================================================
+          
+        // 3. Update the hadiah_id for the selected Nasabah records.
+        foreach ($hasilUndiNasabah as $nasabah) {
+            $nasabah->update(['hadiah_id' => $id]);
+        }
+
+        // 4. Return the results to a view.
+        Alert::success('Anda Berhasil, Selamat!!!', 'Kepada Para Pemenang');
+        return view('pages.hasilUndiFinal', compact('hasilUndiNasabah', 'hadiahNasabah'));
       } else {
-          // Handle other cases or set $hasilUndiNasabah to an appropriate default value.
+          // Handle jika terjadi kesalahan saat mengambil data dari API
+          dd('Gagal mengambil data dari API');
       }
-
-      // 3. Update the hadiah_id for the selected Nasabah records.
-      foreach ($hasilUndiNasabah as $nasabah) {
-          $nasabah->update(['hadiah_id' => $id]);
-      }
-
-      // 4. Return the results to a view.
-      Alert::success('Anda Berhasil, Selamat!!!', 'Kepada Para Pemenang');
-      return view('pages.hasilUndiFinal', compact('hasilUndiNasabah', 'hadiahNasabah'));
     }
 
 
 
+
+      // Check for a successful response (status code 200)
+      // if ($response->getStatusCode() === 200) {
+      //   $body = $response->getBody()->getContents();
+      //   return json_encode(json_decode($body));
+      // } else {
+      //   return json_encode(['error' => 'Failed to fetch data']);
+      // }
 
 
 
