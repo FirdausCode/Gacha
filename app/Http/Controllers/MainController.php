@@ -11,20 +11,20 @@ use RealRashid\SweetAlert\Facades\Alert;
 class MainController extends Controller
 {
     public function welcome() {
-      return view ('welcome');
+      return view ('pages.welcome');
     }
 
     public function pilihWilayah() {
       $wilayah = Wilayah ::all();
 
-      return view('pilihWilayah', compact('wilayah'));
+      return view('pages.pilihWilayah', compact('wilayah'));
     }
 
     public function pilihHadiah($id) {
       $wilayah = Wilayah::find($id);
       $hadiah = Hadiah ::where('wilayah_id' , $id )->get();
 
-      return view('pilihHadiah', compact('hadiah', 'wilayah'));
+      return view('pages.pilihHadiah', compact('hadiah', 'wilayah'));
     }
 
 
@@ -33,7 +33,7 @@ class MainController extends Controller
       $hadiahNasabah = Hadiah::with('nasabah')->where('id', $id)->firstOrFail();
 
       // dd($hadiahNasabah);
-      return view('undiHadiah', compact('hadiahNasabah'));
+      return view('pages.undiHadiah', compact('hadiahNasabah'));
     }
 
     public function hasilUndi($id)
@@ -61,7 +61,7 @@ class MainController extends Controller
 
       // 4. Return the results to a view.
       Alert::success('Anda Berhasil, Selamat!!!', 'Kepada Para Pemenang');
-      return view('hasilUndiFinal', compact('hasilUndiNasabah', 'hadiahNasabah'));
+      return view('pages.hasilUndiFinal', compact('hasilUndiNasabah', 'hadiahNasabah'));
     }
 
 
