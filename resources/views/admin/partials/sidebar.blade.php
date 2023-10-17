@@ -21,13 +21,13 @@
       </a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="">
+      <a class="nav-link" href="/admin/nasabah">
         <i class="menu-icon mdi mdi-file-document"></i>
         <span class="menu-title">Data Nasabah</span>
       </a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="">
+      <a class="nav-link" href="{{ route('dataPemenang') }}">
         <i class="menu-icon mdi mdi-account-circle-outline"></i>
         <span class="menu-title">Data Pemenang</span>
       </a>

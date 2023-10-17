@@ -74,45 +74,62 @@ class HadiahController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Hadiah $hadiah)
+    public function edit($id, Hadiah $hadiah)
     {
-        //
+      $hadiah = Hadiah::find($id);
+      $wilayah = Wilayah ::all();
+      // dd($hadiah);
+        return view('admin.hadiah.edit', compact('hadiah', 'wilayah'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update($id, Request $request, Hadiah $hadiah)
-    {
-      $hadiah = Hadiah::findOrFail($id);
-      $validatedData = $request->validate([
-          'name' => 'required', 
-          'img' => 'required', 
-      ]);
+    public function update($id, Request $request)
+{
+    try {
+        // Find the Hadiah model by its ID
+        $hadiah = Hadiah::findOrFail($id);
 
-      $hadiah->name = $request->input('name'); 
-      $hadiah->description = $request->input('description'); 
-      $hadiah->jumlahHadiah = $request->input('jumlahHadiah'); 
-      $hadiah->wilayah_id = $request->input('wilayah_id'); 
+        // Validate the request data
+        $request->validate([
+            'name' => 'required',
+            'description' => 'required',
+            'jumlahHadiah' => 'required',
+            'wilayah_id' => 'required',
+            'img' => 'image', // You can add more specific validation rules here
+        ]);
 
-      if ($request->hasFile('img')) {
-        $image = $request->file('img');
-        $newFileName = 'hadiah' . '_' . $request->name . '_' . now()->timestamp . '.' . $image->getClientOriginalExtension();
+        // Update the fields
+        $hadiah->name = $request->input('name');
+        $hadiah->description = $request->input('description');
+        $hadiah->jumlahHadiah = $request->input('jumlahHadiah');
+        $hadiah->wilayah_id = $request->input('wilayah_id');
 
-        // Simpan gambar yang diunggah ke direktori penyimpanan sambil mengkompresi ulang
-        $compressedImage = Image::make($image)->resize(700, null, function ($constraint) {
-          $constraint->aspectRatio();
-          })->save(public_path('img/' . $newFileName));
+        if ($request->hasFile('img')) {
+            // Handle file upload
+            $image = $request->file('img');
+            $newFileName = 'hadiah_' . $request->input('name') . '_' . now()->timestamp . '.' . $image->getClientOriginalExtension();
 
-        $hadiah->img =  $newFileName;
-      }
-      
-      // dd($hadiah);
-      $hadiah->save();
-      
-      // dd($cource);
-      return redirect()->route('index.hadiah');
+            // Save the uploaded image to the public/img directory
+            $compressedImage = Image::make($image)->resize(700, null, function ($constraint) {
+                $constraint->aspectRatio();
+            })->save(public_path('img/' . $newFileName));
+
+            // Update the image file name in the model
+            $hadiah->img = $newFileName;
+        }
+
+        // Save the updated Hadiah model
+        $hadiah->save();
+
+        return redirect()->route('index.hadiah')->with('success', 'Hadiah updated successfully');
+    } catch (\Exception $e) {
+        // Handle the exception (e.g., log the error, show an error message, etc.)
+        return redirect()->back()->with('error', 'Error updating Hadiah: ' . $e->getMessage());
     }
+}
+
 
     /**
      * Remove the specified resource from storage.

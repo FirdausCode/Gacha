@@ -21,6 +21,8 @@
                                                 <tr>
                                                     <th>No</th>
                                                     <th>Nama Wilayah</th>
+                                                    <th>Total Hadiah</th>
+                                                    <th>Total Pemenang</th>
                                                     <th class="text-center">Action</th>
                                                 </tr>
                                             </thead>
@@ -29,6 +31,8 @@
                                                     <tr>
                                                         <td>{{ $loop->iteration }}</td>
                                                         <td>{{ $item->name }}</td>
+                                                        <td>{{ $item->hadiah->count() }} Buah Hadiah</td>
+                                                        <td>{{ $item->hadiah->where('nasabah')->count() }} Orang = error</td>
                                                         <td class="d-flex justify-content-center">
                                                             <a href="{{ route('edit.wilayah', ['id' => $item->id]) }}"
                                                                 class="badge badge-warning"

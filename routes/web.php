@@ -51,6 +51,7 @@ Route::delete('/admin/hadiah/destroy/{id}', [HadiahController::class, 'destroy']
 
 // CRUD NASABAH
 Route::get('/admin/nasabah', [NasabahController::class, 'index'])->name('index.nasabah');
+Route::get('/admin/dataPemenang', [NasabahController::class, 'dataPemenang'])->name('dataPemenang');
 Route::get('/admin/nasabah/create', [NasabahController::class, 'create'])->name('create.nasabah');
 Route::post('/admin/nasabah/store', [NasabahController::class, 'store'])->name('store.nasabah');
 Route::get('/admin/nasabah/edit/{id}', [NasabahController::class, 'edit'])->name('edit.nasabah');
@@ -59,8 +60,6 @@ Route::delete('/admin/nasabah/destroy/{id}', [NasabahController::class, 'destroy
 
 
 // DATA PEMENANG
-Route::get('/nasabah', [MainController::class, 'index'])->name('index.nasabah');
-
 
 
 

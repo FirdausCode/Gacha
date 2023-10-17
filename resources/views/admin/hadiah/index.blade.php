@@ -33,7 +33,7 @@
                                     <td>{{ $item->nasabah->count() }} Winner</td>
                                     <td class="d-flex justify-content-center">
                                         {{-- <a href="/hadiahNasabah/{{ $item->id }}" class="btn btn-success btn-sm">Lihat</a> --}}
-                                        <a href="/admin/hadiah/{{ $item->id }}/edit" class="btn btn-warning btn-sm"
+                                        <a href="/admin/hadiah/edit/{{ $item->id }}" class="btn btn-warning btn-sm"
                                           style="text-decoration: none; margin-right: 3px">Edit</a>
                                       <form action="{{ route('hadiah.destroy', $item->id) }}" method="POST">
                                         @csrf
