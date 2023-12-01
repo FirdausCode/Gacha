@@ -1,0 +1,12 @@
+    .randomName {
+        transition: background-color 0.5s ease-out;
+    }
+    .randomize {
+        animation: randomize 2s infinite;
+    }
+    @keyframes randomize {
+        0%, 100% { background-color: #fff; }
+        25% { background-color: #ffcccb; }
+        50% { background-color: #ffd8a8; }
+        75% { background-color: #cfe7ff; }
+    }

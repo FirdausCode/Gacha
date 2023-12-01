@@ -29,3 +29,7 @@
     @foreach ($hadiah as $item)
     <tr><a href="/pilih/hadiah/undiPemenang/{{ $item->id }}" class="btn btn-primary" >{{ $item->name }}</a></tr>
     @endforeach --}}
+
+    {{-- @dd($nasabah); --}}
+    {{-- @dd($hadiah); --}}
+    {{-- @dd($wilayah); --}}

@@ -26,89 +26,50 @@ class MainController extends Controller
     public function pilihHadiah($id) {
       $wilayah = Wilayah::find($id);
       $hadiah = Hadiah ::where('wilayah_id' , $id )->get();
+      $nasabah = Nasabah::where('wilayah_id', $id )->get();
 
-      return view('pages.pilihHadiah', compact('hadiah', 'wilayah'));
+    // Simpan $nasabah dalam session
+    session(['nasabah' => $nasabah]);
+
+      // dd($nasabah);
+      return view('pages.pilihHadiah', compact('hadiah', 'wilayah', 'nasabah'));
     }
 
-
-        
     public function undiPemenang($id) {
+      $jumlahHadiah = Hadiah::where('id', $id)->value('jumlahHadiah');
       $hadiahNasabah = Hadiah::with('nasabah')->where('id', $id)->firstOrFail();
 
-      // dd($hadiahNasabah);
-      return view('pages.undiHadiah', compact('hadiahNasabah'));
+      // Ambil $nasabah dari databsae, untuk random name saat loading
+      $nasabah = Nasabah::all();
+      // dd($nasabah);
+      return view('pages.undiHadiah', compact('hadiahNasabah', 'jumlahHadiah', 'nasabah'));
     }
 
     public function hasilUndi($id)
     {
-      // 1. Ambil data dari API
-      $apiUrl = 'https://sheet2api.com/v1/ElpacIqT42dt/test';
-      $client = new Client();
-      $response = $client->get($apiUrl);
-  
-      // 2. Parse data JSON dari respons API
-      $data = json_decode($response->getBody(), true);
-  
-      if ($data) {
-          // 3. Buat atau perbarui entri dalam model Nasabah
-          foreach ($data as $item) {
-              Nasabah::updateOrCreate(
-                  ['id' => $item['id']],
-                  [
-                      'name' => $item['name'],
-                      'nameCabang' => $item['nameCabang'],
-                      'cif' => $item['cif'],
-                      'wa' => $item['wa'],
-                  ]
-              );
-          }
-      
-        // 4. Setelah mengambil data dari api dan memasukannya ke model
-        //    melakukan undi / random nasabah
-        $hadiahNasabah = Hadiah::where('id', $id)->firstOrFail();
-
-        $jumlahHadiah = Hadiah::where('id', $id)->value('jumlahHadiah');
-
-        // =======================================================================
-          //   $hasilUndiNasabah = Nasabah::where(function($query) use ($jumlahHadiah) {
-          //     $query->where('name', 'resdian')
-          //         ->where('hadiah_id', null);
-          // })->orWhere(function($query) use ($jumlahHadiah) {
-          //     $query->inRandomOrder()
-          //         ->limit($jumlahHadiah);
-          // })->get();
-        // =======================================================================
-
-        // =======================================================================
-        $hasilUndiNasabah = Nasabah::inRandomOrder()->limit($jumlahHadiah)->get();
-        // =======================================================================
-          
-        // 3. Update the hadiah_id for the selected Nasabah records.
-        foreach ($hasilUndiNasabah as $nasabah) {
-            $nasabah->update(['hadiah_id' => $id]);
+        // Ambil $nasabah dari session
+        $nasabah = session('nasabah');
+        
+        // Data seluruh nasabah berdasarkan id wilayah
+        $nasabahByWilayah = Nasabah::where('wilayah_id', $id)->get();
+    
+        // Data hadiah berdasarkan wilayah
+        $hadiahNasabah = Hadiah::where('wilayah_id', $id)->firstOrFail();
+    
+        // Pilih secara acak satu rekaman dari model $nasabahByWilayah 
+        // di mana 'hadiah_id' tidak sama dengan $id dan dapat bernilai null
+        $hasilUndiNasabah = $nasabahByWilayah->where('hadiah_id', '!=', $id)->whereNull('hadiah_id')->shuffle()
+            ->first();
+    
+        // Perbarui 'hadiah_id' dari rekaman yang dipilih dengan nilai $id yang diberikan
+        if ($hasilUndiNasabah) {
+            $hasilUndiNasabah->update(['hadiah_id' => $id]);
         }
-
-        // 4. Return the results to a view.
+        $jumlahHadiah = Hadiah::where('id', $id)->value('jumlahHadiah');
         Alert::success('Anda Berhasil, Selamat!!!', 'Kepada Para Pemenang');
-        return view('pages.hasilUndiFinal', compact('hasilUndiNasabah', 'hadiahNasabah'));
-      } else {
-          // Handle jika terjadi kesalahan saat mengambil data dari API
-          dd('Gagal mengambil data dari API');
-      }
+        return view('pages.undiHadiah', compact('hasilUndiNasabah', 'hadiahNasabah', 'jumlahHadiah'));
     }
-
-
-
-
-      // Check for a successful response (status code 200)
-      // if ($response->getStatusCode() === 200) {
-      //   $body = $response->getBody()->getContents();
-      //   return json_encode(json_decode($body));
-      // } else {
-      //   return json_encode(['error' => 'Failed to fetch data']);
-      // }
-
-
+    
 
 
 

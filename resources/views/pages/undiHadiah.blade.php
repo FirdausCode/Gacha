@@ -19,6 +19,7 @@
                             <tr>
                                 <th>No</th>
                                 <th>Name</th>
+                                <th>Wilayah</th>
                                 <th>Name Cabang</th>
                                 <th>WhatsApp</th>
                             </tr>
@@ -28,25 +29,46 @@
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $nasabah->name }}</td>
+                                    <td>{{ $nasabah->wilayah->name }}</td>
                                     <td>{{ $nasabah->nameCabang }}</td>
                                     <td>{{ $nasabah->wa }}</td>
                                 </tr>
+                                
                             @empty
                                 <tr>
-                                    <td colspan="4">No related nasabah found.</td>
+                                    <td colspan="5">No related nasabah found.</td>
                                 </tr>
                             @endforelse
+                            <tr>
+                              <td ></td>
+                              <td id="randomName"></td>
+                              <td id="randomWilayah"></td>
+                              <td id="randomCabang"></td>
+                              <td id="randomWa"></td>
+                            </tr>
                         </tbody>
                     </table>
 
+                    <div class="text-center">
+                        <h3>UNDI PEMENANG</h3>
+                        <button onclick="startGenerator()" class="btn btn-primary lg-btn">Start</button>
+                        <a href="/pilih/hadiah/undiPemenang/hasilUndi/{{ $hadiahNasabah->id }}"
+                            class="btn btn-primary lg-btn" onclick="stopGenerator()">Stop</a>
+                    </div>
 
-                    @if ($hadiahNasabah->nasabah->isNotEmpty())
-                        <h4>Pemenang Sudah Terpilih</h4>
-                        <a href="{{ route('welcome') }}" class="btn btn-secondary">Kembali</a>
-                    @else
+
+
+                    {{-- @if ($nasabah->count() < $jumlahHadiah())
                         <a href="/pilih/hadiah/undiPemenang/hasilUndi/{{ $hadiahNasabah->id }}" class="btn btn-primary">Undi
                             Pemenang</a>
-                    @endif
+                    @else
+                        <div class="alert alert-info">
+                            <h4>Pemenang Sudah Terpilih</h4>
+                            <a href="{{ route('welcome') }}" class="btn btn-secondary">Kembali</a>
+                        </div>
+                    @endif --}}
+
+
 
 
                 </div>
@@ -55,59 +77,35 @@
     </section><!-- End Hero -->
 @endsection
 
-{{-- 
+<script>
+    let intervalId;
 
-@section('title')
-    {{ 'Pengundian' }}
-@endsection
-@extends('layout')
-@section('content')
-  
-  <!-- ======= Hero Section ======= -->
-  <section id="hero" class="d-flex align-items-center">
+    const startGenerator = () => {
+        intervalId = setInterval(generateRandomName, 80);
+    };
 
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-6 d-flex flex-column justify-content-center pt-4 pt-lg-0 order-2 order-lg-1" data-aos="fade-up" data-aos-delay="200">
-          <h2>
-            Tabungan Mitra Usaha Anda dan MENANGKAN HADIAN</h2>
-          <div class="d-flex justify-content-center justify-content-lg-start">
-            <img src="{{ asset('img/' . $hadiahNasabah->img) }}" alt="" style="width:200px; height:200px; object-fit:cover">
-          </div>
-        </div>
-        <div class="">
-          <table class="table">
-            <thead>
-                <tr>
-                    <th>Iteration</th>
-                    <th>Name</th>
-                    <th>Name Cabang</th>
-                    <th>WhatsApp</th>
-                </tr>
-            </thead>
-            <tbody>
-                @forelse ($hadiahNasabah->nasabah as $nasabah)
-                    <tr>
-                        <td>{{ $loop->iteration }}</td>
-                        <td>{{ $nasabah->name }}</td>
-                        <td>{{ $nasabah->nameCabang }}</td>
-                        <td>{{ $nasabah->wa }}</td>
-                    </tr>
-                @empty
-                    <tr>
-                        <td colspan="4">No related nasabah found.</td>
-                    </tr>
-                @endforelse
-            </tbody>
-        </table>
+    const stopGenerator = () => {
+        clearInterval(intervalId);
+    };
 
-        <a href="/pilih/hadiah/undiPemenang/hasilUndi/{{ $hadiahNasabah->id }}" class="btn btn-primary">Undi Pemenang</a>
+    const generateRandomName = () => {
+        // List of possible names
+        const names = ['RIFQI', 'MUNAWAR', 'RIDWAN', 'NISA', 'AZKA', 'FAUZIAH'];
+        const wilayah = ['BANDUNG', 'JAKARTA', 'SURABAYA', 'JATENG', 'JABAR', 'JATIM'];
+        const cabang = ['BANDUNG', 'JAKARTA', 'SURABAYA', 'JATENG', 'JABAR', 'JATIM'];
+        const wa = ['0864645213', '087674325', '08765321', '08234567', '097654', '0865432'];
 
-        </div>
-      </div>
-    </div>
+        // Choose a name randomly
+        const randomIndex = Math.floor(Math.random() * names.length);
+        const randomName = names[randomIndex];
+        const randomWilayah = wilayah[randomIndex];
+        const randomCabang = cabang[randomIndex];
+        const randomWa = wa[randomIndex];
 
-  </section><!-- End Hero -->
-@endsection
-
- --}}
+        // Display the name in the element with id "randomName"
+        document.getElementById('randomName').textContent = randomName;
+        document.getElementById('randomWilayah').textContent = randomWilayah;
+        document.getElementById('randomCabang').textContent = randomCabang;
+        document.getElementById('randomWa').textContent = randomWa;
+    };
+</script>
