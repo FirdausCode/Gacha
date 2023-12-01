@@ -128,3 +128,63 @@ class MainController extends Controller
         return view('admin.index');
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+public function undiPemenang($id) { //id hadiah hal 4
+  $jumlahHadiah = Hadiah::where('id', $id)->value('jumlahHadiah');
+  $hadiahNasabah = Hadiah::where('id', $id)->firstOrFail();
+  $hasilUndiNasabah = []::with('nasabah');
+
+  // Ambil $nasabah dari databsae, untuk random name saat loading
+  $nasabah = Nasabah::all();
+  // dd($hadiahNasabah);
+  return view('pages.undiHadiah', compact('hadiahNasabah', 'jumlahHadiah', 'nasabah', 'hasilUndiNasabah'));
+}
+
+public function hasilUndi($id)//disini id hadiah, bukan wilayah
+{
+    // Ambil $nasabah dari session
+    $nasabah = session('nasabah');
+    
+    // Data seluruh nasabah berdasarkan id wilayah
+    $nasabahByWilayah = $nasabah;
+
+    // Data hadiah berdasarkan wilayah
+    // $hadiahNasabah = Hadiah::where('wilayah_id', $id)->firstOrFail();
+
+    // Pilih secara acak satu rekaman dari model $nasabahByWilayah 
+    // di mana 'hadiah_id' tidak sama dengan $id dan dapat bernilai null
+    $hasilUndiNasabah = $nasabahByWilayah->where('hadiah_id', '!=', $id)->whereNull('hadiah_id')->shuffle()
+        ->first();
+
+    // Perbarui 'hadiah_id' dari rekaman yang dipilih dengan nilai $id yang diberikan
+    if ($hasilUndiNasabah) {
+        $hasilUndiNasabah->update(['hadiah_id' => $id]);
+    }
+    $jumlahHadiah = Hadiah::where('id', $id)->value('jumlahHadiah');
+
+    dd($hasilUndiNasabah);
+    Alert::success('Anda Berhasil, Selamat!!!', 'Kepada Para Pemenang');
+    return view('pages.undiHadiah', compact('hasilUndiNasabah', 'jumlahHadiah'));
+    // return redirect()->route('undiPemenang', compact('hasilUndiNasabah', 'hadiahNasabah', 'jumlahHadiah'));
+  }

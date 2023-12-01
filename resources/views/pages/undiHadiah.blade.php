@@ -25,6 +25,7 @@
                             </tr>
                         </thead>
                         <tbody>
+                          {{-- @dd($hasilUndiNasabah) --}}
                             @forelse ($hadiahNasabah->nasabah as $nasabah)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
@@ -33,18 +34,18 @@
                                     <td>{{ $nasabah->nameCabang }}</td>
                                     <td>{{ $nasabah->wa }}</td>
                                 </tr>
-                                
                             @empty
                                 <tr>
                                     <td colspan="5">No related nasabah found.</td>
                                 </tr>
                             @endforelse
+
                             <tr>
-                              <td ></td>
-                              <td id="randomName"></td>
-                              <td id="randomWilayah"></td>
-                              <td id="randomCabang"></td>
-                              <td id="randomWa"></td>
+                                <td></td>
+                                <td id="randomName"></td>
+                                <td id="randomWilayah"></td>
+                                <td id="randomCabang"></td>
+                                <td id="randomWa"></td>
                             </tr>
                         </tbody>
                     </table>
@@ -55,22 +56,6 @@
                         <a href="/pilih/hadiah/undiPemenang/hasilUndi/{{ $hadiahNasabah->id }}"
                             class="btn btn-primary lg-btn" onclick="stopGenerator()">Stop</a>
                     </div>
-
-
-
-                    {{-- @if ($nasabah->count() < $jumlahHadiah())
-                        <a href="/pilih/hadiah/undiPemenang/hasilUndi/{{ $hadiahNasabah->id }}" class="btn btn-primary">Undi
-                            Pemenang</a>
-                    @else
-                        <div class="alert alert-info">
-                            <h4>Pemenang Sudah Terpilih</h4>
-                            <a href="{{ route('welcome') }}" class="btn btn-secondary">Kembali</a>
-                        </div>
-                    @endif --}}
-
-
-
-
                 </div>
             </div>
         </div>
@@ -78,6 +63,9 @@
 @endsection
 
 <script>
+    window.jsonData = {!! json_encode($nasabah) !!};
+    console.log(jsonData)
+
     let intervalId;
 
     const startGenerator = () => {

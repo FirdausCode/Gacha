@@ -20,9 +20,10 @@ use Illuminate\Support\Facades\Route;
 
 // MAIN UTAMA/ROOT UTAMA
 Route::get('/', [MainController::class, 'welcome'])->name('welcome');
-Route::get('/pilih/wilayah/', [MainController::class, 'pilihWilayah'])->name('pilih.wilayah');
+Route::get('/pilih/wilayah', [MainController::class, 'pilihWilayah'])->name('pilih.wilayah');
 Route::get('/pilih/hadiah/{id}', [MainController::class, 'pilihHadiah'])->name('pilih.hadiah');
 Route::get('/pilih/hadiah/undiPemenang/{id}', [MainController::class, 'undiPemenang'])->name('undiPemenang');
+Route::get('/pilih/hadiah/undiPemenang', [MainController::class, 'undiPemenang'])->name('undiPemenang.index');
 Route::get('/pilih/hadiah/undiPemenang/hasilUndi/{id}', [MainController::class, 'hasilUndi'])->name('hasilUndi');
 
 
