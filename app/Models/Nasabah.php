@@ -13,4 +13,8 @@ class Nasabah extends Model
     {
         return $this->belongsTo(Hadiah::class);
     }
+    public function wilayah()
+    {
+        return $this->belongsTo(Wilayah::class);
+    }
 }

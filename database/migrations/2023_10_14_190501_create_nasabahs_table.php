@@ -18,11 +18,11 @@ return new class extends Migration
         $table->string('cif')->nullable;
         $table->string('wa');
         $table->unsignedBigInteger('hadiah_id')->nullable();
-        // $table->unsignedBigInteger('wilayah_id')->nullable();
+        $table->unsignedBigInteger('wilayah_id')->nullable();
         $table->timestamps();
 
         $table->foreign('hadiah_id')->references('id')->on('hadiahs');
-        // $table->foreign('wilayah_id')->references('id')->on('wilayahs');
+        $table->foreign('wilayah_id')->references('id')->on('wilayahs');
       });
     }
 
