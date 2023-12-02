@@ -74,6 +74,7 @@ public function hasilUndi($id)
     $nasabah = Nasabah::all();
 
     // Tampilkan data pada view
+    Alert::success('Selamat!!!');
     return view('pages.undiHadiah', compact('hasilUndiNasabah', 'jumlahHadiah', 'nasabah', 'hadiahNasabah'));
 }
 

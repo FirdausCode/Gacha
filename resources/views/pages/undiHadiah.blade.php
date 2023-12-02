@@ -25,19 +25,18 @@
                             </tr>
                         </thead>
                         <tbody>
-                          {{-- @dd($hasilUndiNasabah) --}}
                             @forelse ($hadiahNasabah->nasabah as $nasabah)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $nasabah->name }}</td>
                                     <td>{{ $nasabah->wilayah->name }}</td>
                                     <td>{{ $nasabah->nameCabang }}</td>
-                                    <td>{{ $nasabah->wa }}</td>
+                                    <td>{{ substr($nasabah->wa, 0, -4) . 'XXXX' }}</td>
                                 </tr>
                             @empty
-                                <tr>
+                                {{-- <tr>
                                     <td colspan="5">No related nasabah found.</td>
-                                </tr>
+                                </tr> --}}
                             @endforelse
 
                             <tr>
@@ -50,12 +49,18 @@
                         </tbody>
                     </table>
 
-                    <div class="text-center">
+                    <div id="kondisiSamaDenganJumlahHadiah" style="display: none;">
+                        <h4>Pemenang Sudah Terpilih</h4>
+                        <a href="{{ route('welcome') }}" class="btn btn-secondary">Kembali</a>
+                    </div>
+
+                    <div class="text-center" id="kondisi0SampaiSamaDenganJumlahHadiah">
                         <h3>UNDI PEMENANG</h3>
                         <button onclick="startGenerator()" class="btn btn-primary lg-btn">Start</button>
                         <a href="/pilih/hadiah/undiPemenang/hasilUndi/{{ $hadiahNasabah->id }}"
                             class="btn btn-primary lg-btn" onclick="stopGenerator()">Stop</a>
                     </div>
+
                 </div>
             </div>
         </div>
@@ -63,8 +68,38 @@
 @endsection
 
 <script>
+    window.jsonjumlahHadiah = {!! json_encode($jumlahHadiah) !!};
+
+    function updateVisibility() {
+        // Hitung jumlah isi tabel (mengabaikan elemen head)
+        var jumlahIsiTabel = document.querySelectorAll('.table tbody tr:not(:first-child)').length;
+
+        // Ambil elemen div berdasarkan ID
+        var kondisiSamaDenganJumlahHadiah = document.getElementById('kondisiSamaDenganJumlahHadiah');
+        var kondisi0SampaiSamaDenganJumlahHadiah = document.getElementById('kondisi0SampaiSamaDenganJumlahHadiah');
+
+        // Tampilkan atau sembunyikan div berdasarkan jumlah isi tabel
+        if (jumlahIsiTabel < window.jsonjumlahHadiah) {
+            kondisiSamaDenganJumlahHadiah.style.display = 'none';
+            kondisi0SampaiSamaDenganJumlahHadiah.style.display = 'block';
+        } else {
+            kondisiSamaDenganJumlahHadiah.style.display = 'block';
+            kondisi0SampaiSamaDenganJumlahHadiah.style.display = 'none';
+        }
+    }
+
+    // Panggil fungsi ketika halaman dimuat
+    window.onload = updateVisibility;
+
+
+
+
+
+    // Panggil fungsi ketika halaman dimuat
+    window.onload = updateVisibility;
+
     window.jsonData = {!! json_encode($nasabah) !!};
-    console.log(jsonData)
+
 
     let intervalId;
 
@@ -78,10 +113,10 @@
 
     const generateRandomName = () => {
         // List of possible names
-        const names = ['RIFQI', 'MUNAWAR', 'RIDWAN', 'NISA', 'AZKA', 'FAUZIAH'];
-        const wilayah = ['BANDUNG', 'JAKARTA', 'SURABAYA', 'JATENG', 'JABAR', 'JATIM'];
-        const cabang = ['BANDUNG', 'JAKARTA', 'SURABAYA', 'JATENG', 'JABAR', 'JATIM'];
-        const wa = ['0864645213', '087674325', '08765321', '08234567', '097654', '0865432'];
+        const names = ['Rifqi Munawar', 'Muhammad Rizal', 'Firdaus Nur', 'Resdian Pratama', 'Abdul Azizi', 'Beckham Putra', 'Ciro Alves', 'Riki Maulana', 'Muhammad Cahyadi'];
+        const wilayah = ['Jawa Barat', 'Jawa Tengah', 'Jawa Timur', 'Bali', 'Nusa Tenggara Barat', 'Nusa Tenggara Timur', 'Sumatera Utara', 'Sumatera Barat', 'Aceh', 'Jambi', 'Kalimantan Barat', 'Kalimantan Selatan', 'Kalimantan Tengah', 'Papua Barat', 'Lampung'];
+        const cabang = ['Padang', 'Jambi', 'Jakarta', 'Bandung', 'Tasikmalaya', 'Yogyakarta', 'Solo', 'Semarang', 'Malang', 'Surabaya', 'Samarinda', 'Mataram', 'Lombok', 'Banda Neira', 'Borneo', 'Parang Tritis', 'Sorong', 'Loh Sumawe'];
+        const wa = ['086464521324', '08567521324', '086464045324', '086402427324', '086151149865', '085167789453'];
 
         // Choose a name randomly
         const randomIndex = Math.floor(Math.random() * names.length);
