@@ -113,10 +113,23 @@
 
     const generateRandomName = () => {
         // List of possible names
-        const names = ['Rifqi Munawar', 'Muhammad Rizal', 'Firdaus Nur', 'Resdian Pratama', 'Abdul Azizi', 'Beckham Putra', 'Ciro Alves', 'Riki Maulana', 'Muhammad Cahyadi'];
-        const wilayah = ['Jawa Barat', 'Jawa Tengah', 'Jawa Timur', 'Bali', 'Nusa Tenggara Barat', 'Nusa Tenggara Timur', 'Sumatera Utara', 'Sumatera Barat', 'Aceh', 'Jambi', 'Kalimantan Barat', 'Kalimantan Selatan', 'Kalimantan Tengah', 'Papua Barat', 'Lampung'];
-        const cabang = ['Padang', 'Jambi', 'Jakarta', 'Bandung', 'Tasikmalaya', 'Yogyakarta', 'Solo', 'Semarang', 'Malang', 'Surabaya', 'Samarinda', 'Mataram', 'Lombok', 'Banda Neira', 'Borneo', 'Parang Tritis', 'Sorong', 'Loh Sumawe'];
-        const wa = ['086464521324', '08567521324', '086464045324', '086402427324', '086151149865', '085167789453'];
+        const names = ['Rifqi Munawar', 'Muhammad Rizal', 'Firdaus Nur', 'Resdian Pratama', 'Abdul Azizi',  
+            'Beckham Putra', 'Ciro Alves', 'Riki Maulana', 'Muhammad Cahyadi', 'Ade Irma Wantini',
+            "Ai Risma Azizah", "Amirul Irsyad", "Annisa Nurfitriyah", "Astri Nurazizah", "Ayu Sri Rahayu",
+            "Claudia Regita", "Desi Cahyati", "Dina Marlisa Putri", "Fajar Atila Gita", "Fuad Fahmi Fauzi",
+            "M Sultan Fauzan", "Mega Herdiana", "Muhammad lqbal Felayati", "Amirul Irsyad", "Astri",
+        ];
+        const wilayah = ['Jawa Barat', 'Jawa Tengah', 'Jawa Timur', 'Bali', 'Nusa Tenggara Barat',
+            'Nusa Tenggara Timur', 'Sumatera Utara', 'Sumatera Barat', 'Aceh', 'Jambi', 'Kalimantan Barat',
+            'Nusa Tenggara Timur', 'Sumatera Barat', 'Sumatera Barat', 'Aceh', 'Jambi', 'Kalimantan Barat',
+            'Nusa Tenggara Timur', 'Sumatera Utara', 'Sumatera Barat', 'Aceh', 'Jambi', 'Kalimantan Barat',
+            'Kalimantan Selatan', 'Kalimantan Tengah', 'Papua Barat', 'Lampung'
+        ];
+        const cabang = ['Padang', 'Jambi', 'Jakarta', 'Bandung', 'Tasikmalaya', 'Yogyakarta', 'Solo', 
+            'Semarang','Malang', 'Surabaya', 'Samarinda', 'Mataram', 'Lombok', 'Banda Neira', 'Borneo', 
+            'Parang Tritis', 'Sorong', 'Loh Sumawe'
+        ];
+        const wa = ['086464521324', '08567521324', '086464045324', '086402427324', '086151149865', '085167789453', '086464521324', '08567521324', '086464045324', '086402427324', '086151149865', '085167789453', ];
 
         // Choose a name randomly
         const randomIndex = Math.floor(Math.random() * names.length);
