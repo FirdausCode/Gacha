@@ -19,7 +19,7 @@
                             <tr>
                                 <th>No</th>
                                 <th>Name</th>
-                                <th>Wilayah</th>
+                                <th>Cif</th>
                                 <th>Name Cabang</th>
                                 <th>WhatsApp</th>
                             </tr>
@@ -29,7 +29,7 @@
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $nasabah->name }}</td>
-                                    <td>{{ $nasabah->wilayah->name }}</td>
+                                    <td>{{ $nasabah->cif }}</td>
                                     <td>{{ $nasabah->nameCabang }}</td>
                                     <td>{{ substr($nasabah->wa, 0, -4) . 'XXXX' }}</td>
                                 </tr>
@@ -42,7 +42,7 @@
                             <tr>
                                 <td></td>
                                 <td id="randomName"></td>
-                                <td id="randomWilayah"></td>
+                                <td id="randomCif"></td>
                                 <td id="randomCabang"></td>
                                 <td id="randomWa"></td>
                             </tr>
@@ -112,35 +112,26 @@
     };
 
     const generateRandomName = () => {
-        // List of possible names
-        const names = ['Rifqi Munawar', 'Muhammad Rizal', 'Firdaus Nur', 'Resdian Pratama', 'Abdul Azizi',  
-            'Beckham Putra', 'Ciro Alves', 'Riki Maulana', 'Muhammad Cahyadi', 'Ade Irma Wantini',
-            "Ai Risma Azizah", "Amirul Irsyad", "Annisa Nurfitriyah", "Astri Nurazizah", "Ayu Sri Rahayu",
-            "Claudia Regita", "Desi Cahyati", "Dina Marlisa Putri", "Fajar Atila Gita", "Fuad Fahmi Fauzi",
-            "M Sultan Fauzan", "Mega Herdiana", "Muhammad lqbal Felayati", "Amirul Irsyad", "Astri",
+        // List of possible array for animation
+        const names = ['', '',  '',  '',  '',  '',  '',  '',  '',  '',  '',  '',  '', 
         ];
-        const wilayah = ['Jawa Barat', 'Jawa Tengah', 'Jawa Timur', 'Bali', 'Nusa Tenggara Barat',
-            'Nusa Tenggara Timur', 'Sumatera Utara', 'Sumatera Barat', 'Aceh', 'Jambi', 'Kalimantan Barat',
-            'Nusa Tenggara Timur', 'Sumatera Barat', 'Sumatera Barat', 'Aceh', 'Jambi', 'Kalimantan Barat',
-            'Nusa Tenggara Timur', 'Sumatera Utara', 'Sumatera Barat', 'Aceh', 'Jambi', 'Kalimantan Barat',
-            'Kalimantan Selatan', 'Kalimantan Tengah', 'Papua Barat', 'Lampung'
+        const Cif = ['1234', '1434', '4321', '5323', '2342', '8765', '5463', '3456', '5678', '8765', '1234', '0985', '2346', '76512',
         ];
-        const cabang = ['Padang', 'Jambi', 'Jakarta', 'Bandung', 'Tasikmalaya', 'Yogyakarta', 'Solo', 
-            'Semarang','Malang', 'Surabaya', 'Samarinda', 'Mataram', 'Lombok', 'Banda Neira', 'Borneo', 
-            'Parang Tritis', 'Sorong', 'Loh Sumawe'
+        const cabang = ['', '',  '',  '',  '',  '',  '',  '',  '',  '',  '',  '',  '', 
         ];
-        const wa = ['086464521324', '08567521324', '086464045324', '086402427324', '086151149865', '085167789453', '086464521324', '08567521324', '086464045324', '086402427324', '086151149865', '085167789453', ];
+        const wa = ['',  '',  '',  '',  '',  '',  '',  '',  '',  '',  '',  '',  '',  '', 
+      ];
 
         // Choose a name randomly
         const randomIndex = Math.floor(Math.random() * names.length);
         const randomName = names[randomIndex];
-        const randomWilayah = wilayah[randomIndex];
+        const randomCif = Cif[randomIndex];
         const randomCabang = cabang[randomIndex];
         const randomWa = wa[randomIndex];
 
         // Display the name in the element with id "randomName"
         document.getElementById('randomName').textContent = randomName;
-        document.getElementById('randomWilayah').textContent = randomWilayah;
+        document.getElementById('randomCif').textContent = randomCif;
         document.getElementById('randomCabang').textContent = randomCabang;
         document.getElementById('randomWa').textContent = randomWa;
     };
