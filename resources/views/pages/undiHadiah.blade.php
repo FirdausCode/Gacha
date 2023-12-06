@@ -14,6 +14,9 @@
                         style="width: 400px; height:auto; border-radius:25px">
                 </div>
                 <div class="col-lg-6 order-1 order-lg-2" data-aos="fade-up" data-aos-delay="200">
+                  <div class="text-center">
+                    <h1 ><span id="randomCif"></span></h1>
+                  </div>
                     <table class="table">
                         <thead>
                             <tr>
@@ -29,7 +32,7 @@
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $nasabah->name }}</td>
-                                    <td>{{ $nasabah->cif }}</td>
+                                    <td>{{ substr($nasabah->cif, 0, -3) . 'XXX' }}</td>
                                     <td>{{ $nasabah->nameCabang }}</td>
                                     <td>{{ substr($nasabah->wa, 0, -4) . 'XXXX' }}</td>
                                 </tr>
